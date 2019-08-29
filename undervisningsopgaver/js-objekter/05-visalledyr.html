@@ -48,7 +48,9 @@
             },
         ];
         dyr.forEach(dyr => {
-            console.log(`${dyr.navn} ${dyr.type} ${dyr.levested}`);
+            //console.log(`${dyr.navn} ${dyr.type} ${dyr.levested}`);
+
+            document.querySelector("article").innerHTML += `<p>${dyr.navn} ${dyr.type} ${dyr.levested}</p>`
 
 
 
