@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+
+    <template>
+        <article id="dyr">
+            <h2></h2>
+            <img src="" alt="">
+            <p class="type">Type: </p>
+            <p class="levested">Levested: </p>
+        </article>
+    </template>
+
+    <section id="dyr-liste"></section>
+
+    <script>
+        const skabelon = document.querySelector("template").content;
+        const listeElm = document.querySelector("#dyr-liste");
+        console.log(skabelon)
+        const array = [{
+                "navn": "Gris",
+                "type": "pattedyr",
+                "billede": "http://mabe-kea.dk/E19/pics/pig.png",
+                "levested": "Svinefarme"
+            },
+            {
+                "navn": "Frø",
+                "type": "amfibie",
+                "billede": "http://mabe-kea.dk/E19/pics/frog.png",
+                "levested": "Søer"
+            },
+            {
+                "navn": "Ræv",
+                "type": "pattedyr",
+                "billede": "http://mabe-kea.dk/E19/pics/fox.png",
+                "levested": "Skov"
+            },
+            {
+                "navn": "Sild",
+                "type": "fisk",
+                "billede": "http://mabe-kea.dk/E19/pics/sild.jpg",
+                "levested": "Havet"
+            },
+            {
+                "navn": "Krokodille",
+                "type": "krybdyr",
+                "billede": "http://mabe-kea.dk/E19/pics/kroko.jpg",
+                "levested": "Ferskvand"
+            },
+        ];
+        array.forEach(dyr => {
+            const klon = skabelon.cloneNode(true);
+            console.log(klon);
+            const h2 = klon.querySelector("h2");
+            h2.textContent = dyr.navn;
+            //h2.textContent += " navn " + dyr.type;
+            const img = klon.querySelector("img");
+            img.src = dyr.billede;
+            img.alt = "Billede af " + dyr.type;
+            listeElm.appendChild(klon);
+
+
+
+
+        })
+    </script>
+</body>
+
+</html>
