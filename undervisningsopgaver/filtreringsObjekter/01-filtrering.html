@@ -20,15 +20,29 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 2fr));
             grid-gap: 1rem;
-
             /*  */
         }
 
+        nav {
+            text-align: center;
+        }
+
+        .active {
+            color: red;
+        }
+
     </style>
+
+
+    <nav>
+        <button class="active" data-køn="alle">Alle</button>
+        <button data-køn="m">Mænd</button>
+        <button data-køn="k">Kvinder</button>
+        <button data-køn="andet">Andet</button>
+    </nav>
 </head>
 
 <body>
-
     <template>
         <article>
             <h2>Navn</h2>
@@ -41,54 +55,52 @@
 
     <script>
         let underviserArray = [];
-        let filter "k";
-
-
-
-
+        let filter = "alle";
+        const filterKnapper = document.querySelectorAll("button");
+        const jsonURL = "https://spreadsheets.google.com/feeds/list/1Xge7slZ9dEOTCn1Yxl3OE4xgvrXOL8Y_iu3WN1yGB1U/od6/public/values?alt=json&fbclid=IwAR3b9wIogPkzOH94bqdpQ7M6w0wE5GLIE-P4ZStwaKAMJ2WPPDvnfVR24-k";
+        let personer;
         document.addEventListener("DOMContentLoaded", start);
-
+        // første funktion der kaldes efter DOM er loaded
         function start() {
+            const filterKnapper = document.querySelectorAll("button");
+            filterKnapper.forEach(knap => knap.addEventListener("click", filtrer));
             hentJson();
         }
-
+        filterKnapper.forEach(knap => knap.addEventListener("click", filtrer));
+        // funktion der filtrere personer (json)
+        function filtrer() {
+            filter = this.dataset.køn; // sæt varibel "filter" til aktuel værdi
+            document.querySelector(".active").classList.remove("active");
+            this.classList.add("active");
+            hentJson();
+        }
+        // funktion der henter data fra google sheet
         async function hentJson() {
-            const jsonURL = "https://spreadsheets.google.com/feeds/list/1Xge7slZ9dEOTCn1Yxl3OE4xgvrXOL8Y_iu3WN1yGB1U/od6/public/values?alt=json&fbclid=IwAR3b9wIogPkzOH94bqdpQ7M6w0wE5GLIE-P4ZStwaKAMJ2WPPDvnfVR24-k";
             const response = await fetch(jsonURL);
-            console.log(response);
+            //            console.log(response);
             undervisereArray = await response.json()
-            console.log(undervisereArray);
-
+            //            console.log(undervisereArray);
             visJson();
         }
 
         function visJson() {
-
             const skabelon = document.querySelector("template").content;
             const listeElm = document.querySelector("#person-liste");
-
-
-            undervisereArray.feed.entry.forEach(person => {
-                if (person.gsx$køn.$t == filter) {
+            listeElm.textContent = ""; // tømmer listeElm
+            undervisereArray.feed.entry.forEach(person => { // loop gennem personer
+                if (person.gsx$køn.$t == filter || filter == "alle") { // tjek hvilket køn, og sammenlign med filter, eller vis alle
                     const klon = skabelon.cloneNode(true);
-                    console.log(klon);
-
+                    // console.log(klon);
                     const h2 = klon.querySelector("h2");
                     h2.textContent = person.gsx$navn.$t + " " + person.gsx$alder.$t;
-
                     const p = klon.querySelector("p");
                     p.textContent = person.gsx$github.$t;
-
                     const img = klon.querySelector("img");
                     img.src = person.gsx$billede.$t
                     img.alt = "Billede af " + person.gsx$billede.$t;
-
                     listeElm.appendChild(klon);
-
                 }
-
             })
-
         }
 
     </script>
