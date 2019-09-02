@@ -30,7 +30,6 @@
         .active {
             color: red;
         }
-
     </style>
     <nav>
         <button data="active" class="alle">Alle</button>
@@ -43,8 +42,8 @@
 <body>
     <template>
         <article>
-            <h2>Navn</h2>
             <img>
+            <h2>Navn</h2>
             <p></p>
         </article>
     </template>
@@ -98,11 +97,20 @@
                     const klon = skabelon.cloneNode(true);
                     //console.log(klon);
 
+
+
                     const h2 = klon.querySelector("h2");
-                    h2.textContent = ret.gsx$navn.$t + " " + ret.gsx$pris.$t;
+                    h2.textContent = ret.gsx$navn.$t;
+
 
                     const p = klon.querySelector("p");
                     p.textContent = ret.gsx$kort.$t;
+
+                    //img.src = /imgs/small.gsx$billede.$t
+                    //img.alt = "Billede af " + /imgs/.gsx$billede.$t;
+
+
+
 
                     listeElm.appendChild(klon);
 
@@ -110,7 +118,6 @@
 
             })
         }
-
     </script>
 
 
