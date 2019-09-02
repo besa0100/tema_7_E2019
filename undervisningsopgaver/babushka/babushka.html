@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Babushka</title>
+    <style>
+        article {
+            border: 1px solid silver;
+            padding: 20px;
+        }
+
+        article img {
+            width: 100%;
+        }
+
+        section {
+            width: 80vw;
+            margin: 1vw auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 2fr));
+            grid-gap: 1rem;
+            /*  */
+        }
+
+        nav {
+            text-align: center;
+        }
+
+        .active {
+            color: red;
+        }
+
+    </style>
+    <nav>
+        <button data="active" class="alle">Alle</button>
+        <button data="forretter">Forretter</button>
+        <button data="Huvudretter">Huvudretter</button>
+        <button data="Dessert">Dessert</button>
+    </nav>
+</head>
+
+<body>
+    <template>
+        <article>
+            <h2>Navn</h2>
+            <img>
+            <p></p>
+        </article>
+    </template>
+
+    <section id="liste"></section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", start);
+
+        let madlisteArray = [];
+        let filter = "alle";
+        const filterKnapper = document.querySelectorAll("button");
+        let ret;
+
+
+        function start() {
+            const filterKnapper = document.querySelectorAll("button");
+            filterKnapper.forEach(knap => knap.addEventListener("click", filtrer));
+
+            hentJson();
+        }
+
+        filterKnapper.forEach(knap => knap.addEventListener("click", filtrer));
+
+        function filtrer() {
+            filter = this.dataset.ret;
+
+            document.querySelector(".active").classList.remove("active");
+            this.classList.add("active");
+            hentJson();
+        }
+
+        async function hentJson() {
+            const jsonURL = "https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json";
+            const response = await fetch(jsonURL);
+            //console.log(respone);
+            madlisteArray = await response.json()
+            //console.log(madlisteArray);
+
+            visJson();
+        }
+
+        function visJson() {
+
+            const skabelon = document.querySelector("template").content;
+            const listeElm = document.querySelector("#liste");
+            listeElm.textContent = "";
+
+            madlisteArray.feed.entry.forEach(ret => {
+                if (ret.gsx$kategori.$t == filter || filter == "alle") {
+                    const klon = skabelon.cloneNode(true);
+                    //console.log(klon);
+
+                    const h2 = klon.querySelector("h2");
+                    h2.textContent = ret.gsx$navn.$t + " " + ret.gsx$pris.$t;
+
+                    const p = klon.querySelector("p");
+                    p.textContent = ret.gsx$kort.$t;
+
+                    listeElm.appendChild(klon);
+
+                }
+
+            })
+        }
+
+    </script>
+
+
+</body>
+
+</html>
