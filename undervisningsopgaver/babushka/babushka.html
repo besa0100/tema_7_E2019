@@ -83,7 +83,7 @@
             <button class="luk">𝚾</button>
             <h2></h2>
             <img src="" alt="">
-            <p> Pris </p>
+            <p></p>
 
         </article>
     </section>
@@ -147,14 +147,13 @@
                     p.textContent = ret.gsx$kort.$t;
 
                     const img = klon.querySelector("img");
-                    // <img src="imgs/small/baltiskbondesuppe-sm.jpg">
 
                     img.src = "imgs/small/" + ret.gsx$billede.$t + "-sm.jpg";
                     //img.alt = "Billede af " + /imgs/.gsx$billede.$t;
 
 
                     // klon.querySelector(".person").addEventListener("click", () => {
-                    visdetalje(ret);
+                    //visdetalje(ret);
                     //   });
 
 
@@ -178,9 +177,10 @@
             document.querySelector("#detalje .luk").addEventListener("click", skjuldetalje);
 
             document.querySelector("#detalje h2").textContent = ret.gsx$navn.$t;
-            //  document.querySelector("#detalje img").src = ret.gsx$billede.$t;
-            //     document.querySelector("#detalje img").alt = billede af ${ret.gsx$billede};
 
+            document.querySelector("#detalje img").src = "imgs/large/" + ret.gsx$billede.$t + ".jpg";
+
+            document.querySelector("#detalje p").textContent = ret.gsx$lang.$t;
 
 
 
@@ -197,4 +197,5 @@
 
 
 </body>
+
 </html>
