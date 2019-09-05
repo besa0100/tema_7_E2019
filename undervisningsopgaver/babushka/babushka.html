@@ -76,7 +76,20 @@
 
 
         }
+
+        #topp {
+            background-image: url(logo.png);
+            background-repeat: no-repeat;
+            width: 55vw;
+            height: 50vh;
+        }
+
+        @media screen and (max-width: 500px) {
+            #topp {
+                display: none;
+            }
     </style>
+    <section id="topp"></section>
     <nav>
         <button data-ret="alle" class="active">Alle</button>
         <button data-ret="forretter">Forretter</button>
